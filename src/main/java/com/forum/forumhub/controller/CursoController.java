@@ -18,20 +18,17 @@ public class CursoController {
         this.cursoService = cursoService;
     }
 
-    // Criar um novo curso
-    @PostMapping
+    @PostMapping("/adicionar")
     @Transactional
     public Curso criarCurso(@RequestBody Curso curso) {
         return cursoService.criarCurso(curso);
     }
 
-    // Buscar todos os cursos
     @GetMapping
     public List<Curso> getTodosCursos() {
         return cursoService.buscarTodos();
     }
 
-    // Buscar curso por ID
     @GetMapping("/{id}")
     public ResponseEntity<Curso> getCursoPorId(@PathVariable Long id) {
         return cursoService.buscarPorId(id)
@@ -39,7 +36,6 @@ public class CursoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Buscar curso por nome exato
     @GetMapping("/nome/{nome}")
     public ResponseEntity<Curso> getCursoPorNome(@PathVariable String nome) {
         return cursoService.buscarPorNome(nome)
@@ -47,14 +43,12 @@ public class CursoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Buscar cursos por fragmento do nome
     @GetMapping("/buscar")
     public List<Curso> buscarCursosPorNomeParcial(@RequestParam String fragmento) {
         return cursoService.buscarPorNomeParcial(fragmento);
     }
 
-    // Atualizar curso
-    @PutMapping("/{id}")
+    @PutMapping("/atualizar/{id}")
     @Transactional
     public ResponseEntity<Curso> atualizarCurso(@PathVariable Long id, @RequestBody Curso cursoAtualizado) {
         try {
@@ -65,8 +59,7 @@ public class CursoController {
         }
     }
 
-    // Deletar curso
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/deletar/{id}")
     @Transactional
     public ResponseEntity<Void> deletarCurso(@PathVariable Long id) {
         cursoService.deletarCurso(id);

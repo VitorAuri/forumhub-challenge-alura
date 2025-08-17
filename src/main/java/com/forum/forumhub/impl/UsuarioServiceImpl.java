@@ -3,6 +3,7 @@ package com.forum.forumhub.impl;
 import com.forum.forumhub.model.Usuario;
 import com.forum.forumhub.repository.UsuarioRepository;
 import com.forum.forumhub.service.UsuarioService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,13 +13,17 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl(UsuarioRepository usuarioRepository) {
+    public UsuarioServiceImpl(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public Usuario criarUsuario(Usuario usuario) {
+        String raw = usuario.getSenha();
+        usuario.setSenha(passwordEncoder.encode(raw));
         return usuarioRepository.save(usuario);
     }
 

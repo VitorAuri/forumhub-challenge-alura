@@ -2,6 +2,8 @@ package com.forum.forumhub.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "topicos")
@@ -30,6 +32,10 @@ public class Topico {
     @ManyToOne(optional = false)
     @JoinColumn(name = "curso_id", nullable = false)
     private Curso curso;
+
+    @OneToMany(mappedBy = "topico", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Mensagem> mensagens = new ArrayList<>();
+
 
     public Topico() {}
 
